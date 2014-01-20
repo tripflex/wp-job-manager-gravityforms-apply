@@ -37,6 +37,10 @@ It is up to the theme to respect your choice to use this plugin (as there is no 
 
 == Changelog ==
 
+= 1.1: January 20, 2014 =
+
+* New: Add support for a Resume Contact form when using Resume Manager
+
 = 1.0: August 14, 2013 =
 
 * First official release!
