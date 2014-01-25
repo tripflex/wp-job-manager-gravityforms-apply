@@ -146,10 +146,18 @@ class Astoundify_Job_Manager_Apply {
 	 * @return string The email to notify.
 	 */
 	public function notification_email( $notification, $form, $entry ) {
+		if ( ! is_singular( array( 'resume', 'job_listing' ) ) )
+			return;
+
 		global $post;
 
 		$notification[ 'toType' ] = 'email';
-		$notification[ 'to' ]     = $post->_application;
+
+		if ( $form->ID == $this->jobs_form_id ) {
+			$notification[ 'to' ]     = $post->_application;
+		} else {
+			$notification[ 'to' ]     = $post->_candidate_email;
+		}
 
 		return $notification;
 	}
