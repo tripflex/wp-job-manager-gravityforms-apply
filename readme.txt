@@ -37,6 +37,11 @@ It is up to the theme to respect your choice to use this plugin (as there is no 
 
 == Changelog ==
 
+= 1.1.1: January 26, 2014 =
+
+* Fix: Make sure resume contact submissions are going to the correct place.
+* Fix: Avoid conflict with Gravity Forms when submitting a resume.
+
 = 1.1: January 20, 2014 =
 
 * New: Add support for a Resume Contact form when using Resume Manager

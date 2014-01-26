@@ -5,7 +5,7 @@
  * Description: Apply to jobs that have added an email address via Gravity Forms
  * Author:      Astoundify
  * Author URI:  http://astoundify.com
- * Version:     1.1
+ * Version:     1.1.1
  * Text Domain: job_manager_gf_apply
  */
 
