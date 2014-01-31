@@ -146,8 +146,9 @@ class Astoundify_Job_Manager_Apply_GF {
 	 * @return string The email to notify.
 	 */
 	public function notification_email( $notification, $form, $entry ) {
-		if ( ! is_singular( array( 'resume', 'job_listing' ) ) )
-			return;
+		if ( ! is_singular( array( 'resume', 'job_listing' ) ) ) {
+			return $notification;
+		}
 
 		global $post;
 
