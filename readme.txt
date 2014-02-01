@@ -6,8 +6,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=contact@
 Contributors: spencerfinnell
 Tags: job, job listing, job apply, gravity forms, wp job manager
 Requires at least: 3.5
-Tested up to: 3.5
-Stable Tag: 1.0
+Tested up to: 3.8
+Stable Tag: 1.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -36,6 +36,11 @@ It is up to the theme to respect your choice to use this plugin (as there is no 
 2. Go to "Job Listings > Settings" and enter the ID of the form you would like to use.
 
 == Changelog ==
+
+= 1.1.2: February 1, 2014 =
+
+* Fix: Properly return variable on filter.
+* Fix: Typo fix for sending job emails.
 
 = 1.1.1: January 26, 2014 =
 
