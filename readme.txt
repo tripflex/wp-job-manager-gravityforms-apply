@@ -7,7 +7,7 @@ Contributors: spencerfinnell
 Tags: job, job listing, job apply, gravity forms, wp job manager
 Requires at least: 3.5
 Tested up to: 3.8
-Stable Tag: 1.1.2
+Stable Tag: 1.2.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,12 +30,18 @@ It is up to the theme to respect your choice to use this plugin (as there is no 
 `if ( class_exists( 'Astoundify_Job_Manager_Apply' ) ) :
 	echo do_shortcode( '[gravityform id="' . get_option( 'job_manager_gravity_form' ) . '" title="false" ajax="true"]' );`
 
+Please also make sure you have created a hidden field that under the "Advanced" tab has the "Allow field to be dynamically populated" field checked and with a value of `application_email`
+
 == Installation ==
 
 1. Install and Activate
 2. Go to "Job Listings > Settings" and enter the ID of the form you would like to use.
 
 == Changelog ==
+
+= 1.2.0: February 4, 2014 =
+
+* New: Forms must create a hidden field with a dynamically populdated field of "application_email". This *must* be the last field of the form.
 
 = 1.1.2: February 1, 2014 =
 

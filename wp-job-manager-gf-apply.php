@@ -5,14 +5,14 @@
  * Description: Apply to jobs that have added an email address via Gravity Forms
  * Author:      Astoundify
  * Author URI:  http://astoundify.com
- * Version:     1.1.2
+ * Version:     1.2.0
  * Text Domain: job_manager_gf_apply
  */
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Astoundify_Job_Manager_Apply_GF {
+class Astoundify_Job_Manager_Apply {
 
 	/**
 	 * @var $instance
@@ -47,7 +47,7 @@ class Astoundify_Job_Manager_Apply_GF {
 	 */
 	public function __construct() {
 		$this->jobs_form_id    = get_option( 'job_manager_gravity_form' );
-		$this->resumes_form_id = get_option( 'job_manager_gravity_form_resumes' );
+		$this->resumes_form_id = get_option( 'job_manager_gravity_form_resumes_apply' );
 
 		$this->setup_actions();
 		$this->setup_globals();
@@ -104,6 +104,8 @@ class Astoundify_Job_Manager_Apply_GF {
 	private function setup_actions() {
 		add_filter( 'job_manager_settings', array( $this, 'job_manager_settings' ) );
 
+		add_filter( 'gform_field_value_application_email', array( $this, 'application_email' ) );
+
 		add_filter( 'gform_notification_' . $this->jobs_form_id, array( $this, 'notification_email' ), 10, 3 );
 		add_filter( 'gform_notification_' . $this->resumes_form_id, array( $this, 'notification_email' ), 10, 3 );
 	}
@@ -127,7 +129,7 @@ class Astoundify_Job_Manager_Apply_GF {
 
 		if ( class_exists( 'WP_Resume_Manager' ) ) {
 			$settings[ 'job_listings' ][1][] = array(
-				'name'       => 'job_manager_gravity_form_resumes',
+				'name'       => 'job_manager_gravity_form_resumes_apply',
 				'std'        => null,
 				'label'      => __( 'Resumes Gravity Form ID', 'job_manager_gf_apply' ),
 				'desc'       => __( 'The ID of the Gravity Form you created for contacting employees.', 'job_manager_gf_apply' ),
@@ -139,6 +141,23 @@ class Astoundify_Job_Manager_Apply_GF {
 	}
 
 	/**
+	 * Dynamically populate the application email field.
+	 *
+	 * @since WP Job Manager - Apply with Gravity Forms 1.2.0
+	 *
+	 * @return string The email to notify.
+	 */
+	public function application_email() {
+		global $post;
+
+		if ( $post->_application ) {
+			return $post->_application;
+		} else {
+			return $post->_candidate_email;
+		}
+	}
+
+	/**
 	 * Set the notification email when sending an email.
 	 *
 	 * @since WP Job Manager - Apply with Gravity Forms 1.0
@@ -146,21 +165,15 @@ class Astoundify_Job_Manager_Apply_GF {
 	 * @return string The email to notify.
 	 */
 	public function notification_email( $notification, $form, $entry ) {
-		if ( ! is_singular( array( 'resume', 'job_listing' ) ) ) {
-			return $notification;
-		}
-
-		global $post;
-
 		$notification[ 'toType' ] = 'email';
 
-		if ( $form->ID == $this->jobs_form_id ) {
-			$notification[ 'to' ]     = $post->_application;
+		if ( $form->id == $this->jobs_form_id ) {
+			$notification[ 'to' ] = end( $entry );
 		} else {
-			$notification[ 'to' ]     = $post->_candidate_email;
+			$notification[ 'to' ] = end( $entry );
 		}
 
 		return $notification;
 	}
 }
-add_action( 'init', array( 'Astoundify_Job_Manager_Apply_GF', 'instance' ) );
+add_action( 'init', array( 'Astoundify_Job_Manager_Apply', 'instance' ) );
