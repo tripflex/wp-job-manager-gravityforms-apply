@@ -12,7 +12,7 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Astoundify_Job_Manager_Apply {
+class Astoundify_Job_Manager_Apply_GF {
 
 	/**
 	 * @var $instance
@@ -176,4 +176,4 @@ class Astoundify_Job_Manager_Apply {
 		return $notification;
 	}
 }
-add_action( 'init', array( 'Astoundify_Job_Manager_Apply', 'instance' ) );
+add_action( 'init', array( 'Astoundify_Job_Manager_Apply_GF', 'instance' ) );
