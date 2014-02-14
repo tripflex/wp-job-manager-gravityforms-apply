@@ -176,11 +176,7 @@ class Astoundify_Job_Manager_Apply_GF {
 			}
 		}
 
-		if ( $form->id == $this->jobs_form_id ) {
-			$notification[ 'to' ] = $entry[ $field ];
-		} else {
-			$notification[ 'to' ] = $entry[ $field ];
-		}
+		$notification[ 'to' ] = $entry[ $field ];
 
 		return $notification;
 	}
