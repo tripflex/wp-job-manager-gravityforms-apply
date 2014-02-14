@@ -7,7 +7,7 @@ Contributors: spencerfinnell
 Tags: job, job listing, job apply, gravity forms, wp job manager
 Requires at least: 3.5
 Tested up to: 3.8
-Stable Tag: 1.2.0
+Stable Tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -38,6 +38,10 @@ Make sure you have created a hidden field in your form. Under the "Advanced" tab
 2. Go to "Job Listings > Settings" and enter the ID of the form you would like to use.
 
 == Changelog ==
+
+= 1.2.1: February 14, 2014 =
+
+* Fix: Check the entire form to find where the field for the email is. We cannot count on it being last since Gravity Forms puts empty fields at the end.
 
 = 1.2.0: February 4, 2014 =
 

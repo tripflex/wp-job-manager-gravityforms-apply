@@ -5,7 +5,7 @@
  * Description: Apply to jobs that have added an email address via Gravity Forms
  * Author:      Astoundify
  * Author URI:  http://astoundify.com
- * Version:     1.2.0
+ * Version:     1.2.1
  * Text Domain: job_manager_gf_apply
  */
 
@@ -167,10 +167,19 @@ class Astoundify_Job_Manager_Apply_GF {
 	public function notification_email( $notification, $form, $entry ) {
 		$notification[ 'toType' ] = 'email';
 
+		$field  = null;
+		$fields = $form[ 'fields' ];
+
+		foreach ( $fields as $check ) {
+			if ( $check[ 'inputName' ] == 'application_email' ) {
+				$field = $check[ 'id' ];
+			}
+		}
+
 		if ( $form->id == $this->jobs_form_id ) {
-			$notification[ 'to' ] = end( $entry );
+			$notification[ 'to' ] = $entry[ $field ];
 		} else {
-			$notification[ 'to' ] = end( $entry );
+			$notification[ 'to' ] = $entry[ $field ];
 		}
 
 		return $notification;
