@@ -46,8 +46,8 @@ class Astoundify_Job_Manager_Apply_GF {
 	 * @since WP Job Manager - Apply with Gravity Forms 1.0
 	 */
 	public function __construct() {
-		$this->jobs_form_id    = get_option( 'job_manager_gravity_form' );
-		$this->resumes_form_id = get_option( 'job_manager_gravity_form_resumes_apply' );
+		$this->jobs_form_id    = get_option( 'job_manager_job_apply' );
+		$this->resumes_form_id = get_option( 'job_manager_resumes_apply' );
 
 		$this->setup_actions();
 		$this->setup_globals();
@@ -65,11 +65,11 @@ class Astoundify_Job_Manager_Apply_GF {
 	private function setup_globals() {
 		$this->file         = __FILE__;
 
-		$this->basename     = apply_filters( 'job_manager_gf_apply_plugin_basenname', plugin_basename( $this->file ) );
-		$this->plugin_dir   = apply_filters( 'job_manager_gf_apply_plugin_dir_path',  plugin_dir_path( $this->file ) );
-		$this->plugin_url   = apply_filters( 'job_manager_gf_apply_plugin_dir_url',   plugin_dir_url ( $this->file ) );
+		$this->basename     = plugin_basename( $this->file );
+		$this->plugin_dir   = plugin_dir_path( $this->file );
+		$this->plugin_url   = plugin_dir_url ( $this->file );
 
-		$this->lang_dir     = apply_filters( 'job_manager_gf_apply_lang_dir',     trailingslashit( $this->plugin_dir . 'languages' ) );
+		$this->lang_dir     = trailingslashit( $this->plugin_dir . 'languages' );
 		$this->domain       = 'job_manager_gf_apply';
 	}
 
@@ -110,6 +110,20 @@ class Astoundify_Job_Manager_Apply_GF {
 		add_filter( 'gform_notification_' . $this->resumes_form_id, array( $this, 'notification_email' ), 10, 3 );
 	}
 
+	private static function get_forms() {
+		$forms = array( 0 => __( 'Please select a form', 'job_manager_gf_apply' ) );
+
+		$_forms = RGFormsModel::get_forms( null, 'title' );
+
+		if ( ! empty( $_forms ) ) {
+			foreach ( $_forms as $_form ) {
+				$forms[ $_form->id ] = $_form->title;
+			}
+		}
+
+		return $forms;
+	}
+
 	/**
 	 * Add a setting in the admin panel to enter the ID of the Gravity Form to use.
 	 *
@@ -120,20 +134,22 @@ class Astoundify_Job_Manager_Apply_GF {
 	 */
 	public function job_manager_settings( $settings ) {
 		$settings[ 'job_listings' ][1][] = array(
-			'name'       => 'job_manager_gravity_form',
-			'std'        => null,
-			'label'      => __( 'Jobs Gravity Form ID', 'job_manager_gf_apply' ),
-			'desc'       => __( 'The ID of the Gravity Form you created for contacting employers.', 'job_manager_gf_apply' ),
-			'attributes' => array()
+			'name'    => 'job_manager_job_apply',
+			'std'     => null,
+			'label'   => __( 'Jobs Gravity Form ID', 'job_manager_gf_apply' ),
+			'desc'    => __( 'The ID of the Gravity Form you created for contacting employers.', 'job_manager_gf_apply' ),
+			'type'    => 'select',
+			'options' => self::get_forms()
 		);
 
 		if ( class_exists( 'WP_Resume_Manager' ) ) {
 			$settings[ 'job_listings' ][1][] = array(
-				'name'       => 'job_manager_gravity_form_resumes_apply',
-				'std'        => null,
-				'label'      => __( 'Resumes Gravity Form ID', 'job_manager_gf_apply' ),
-				'desc'       => __( 'The ID of the Gravity Form you created for contacting employees.', 'job_manager_gf_apply' ),
-				'attributes' => array()
+				'name'    => 'job_manager_resumes_apply',
+				'std'     => null,
+				'label'   => __( 'Resumes Gravity Form ID', 'job_manager_gf_apply' ),
+				'desc'    => __( 'The ID of the Gravity Form you created for contacting employees.', 'job_manager_gf_apply' ),
+				'type'    => 'select',
+				'options' => self::get_forms()
 			);
 		}
 
